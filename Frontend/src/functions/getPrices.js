@@ -2,7 +2,6 @@
 import axios from "axios";
 
 const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_URL; // Or VITE_BACKEND_URL
-const BACKEND_API_URL = `${BACKEND_BASE_URL}/api/coins/markets`; // Construct full URL
 const BACKEND_PRICES_URL = `${BACKEND_BASE_URL}/api/coins/`;
 
 export const getPrices = async (id, days, priceType) => {

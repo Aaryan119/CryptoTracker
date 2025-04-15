@@ -3,7 +3,6 @@ import axios from "axios";
 
 
 const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_URL; // Or VITE_BACKEND_URL
-const BACKEND_API_URL = `${BACKEND_BASE_URL}/api/coins/markets`; // Construct full URL
 const BACKEND_COIN_DATA_URL = `${BACKEND_BASE_URL}/api/coins/`; // Note the trailing slash
 
 export const getCoinData = async (id) => {

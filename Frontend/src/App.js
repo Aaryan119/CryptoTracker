@@ -6,9 +6,9 @@ import Compare from "./pages/Compare";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Watchlist from "./pages/Watchlist";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
+import React, { useEffect,useRef } from "react";
 
 function App() {
   const theme = createTheme({
@@ -19,40 +19,65 @@ function App() {
     },
   });
 
-  var cursor;
-  var cursorPointer;
+  const cursorRef = useRef(null);
+  const cursorPointerRef = useRef(null);
 
   useEffect(() => {
-    cursor = document.getElementById("cursor");
-    cursorPointer = document.getElementById("cursor-pointer");
+    // Assign DOM elements to ref.current
+    cursorRef.current = document.getElementById("cursor");
+    cursorPointerRef.current = document.getElementById("cursor-pointer");
 
-    document.body.addEventListener("mousemove", function (e) {
-      return (
-        (cursor.style.left = e.clientX + "px"),
-        (cursor.style.top = e.clientY + "px"),
-        (cursorPointer.style.left = e.clientX + "px"),
-        (cursorPointer.style.top = e.clientY + "px")
-      );
-    });
+    // Add checks to ensure elements exist before adding listeners
+    if (!cursorRef.current || !cursorPointerRef.current) {
+      console.warn("Cursor elements not found");
+      return;
+    }
 
-    document.body.addEventListener("mousedown", function (e) {
-      return (
-        (cursor.style.height = "0.5rem"),
-        (cursor.style.width = "0.5rem"),
-        (cursorPointer.style.height = "3rem"),
-        (cursorPointer.style.width = "3rem")
-      );
-    });
+    const handleMouseMove = (e) => {
+      // Check refs again inside handlers (good practice)
+      if (cursorRef.current) {
+        cursorRef.current.style.left = e.clientX + "px";
+        cursorRef.current.style.top = e.clientY + "px";
+      }
+      if (cursorPointerRef.current) {
+        cursorPointerRef.current.style.left = e.clientX + "px";
+        cursorPointerRef.current.style.top = e.clientY + "px";
+      }
+    };
 
-    document.body.addEventListener("mouseup", function (e) {
-      return (
-        (cursor.style.height = "0.3rem"),
-        (cursor.style.width = "0.3rem"),
-        (cursorPointer.style.height = "2rem"),
-        (cursorPointer.style.width = "2rem")
-      );
-    });
-  }, []);
+    const handleMouseDown = () => {
+      if (cursorRef.current) {
+        cursorRef.current.style.height = "0.5rem";
+        cursorRef.current.style.width = "0.5rem";
+      }
+       if (cursorPointerRef.current) {
+        cursorPointerRef.current.style.height = "3rem";
+        cursorPointerRef.current.style.width = "3rem";
+      }
+    };
+
+    const handleMouseUp = () => {
+      if (cursorRef.current) {
+         cursorRef.current.style.height = "0.3rem";
+         cursorRef.current.style.width = "0.3rem";
+      }
+      if (cursorPointerRef.current) {
+        cursorPointerRef.current.style.height = "2rem";
+        cursorPointerRef.current.style.width = "2rem";
+      }
+    };
+
+    document.body.addEventListener("mousemove", handleMouseMove);
+    document.body.addEventListener("mousedown", handleMouseDown);
+    document.body.addEventListener("mouseup", handleMouseUp);
+
+    // Cleanup function
+    return () => {
+      document.body.removeEventListener("mousemove", handleMouseMove);
+      document.body.removeEventListener("mousedown", handleMouseDown);
+      document.body.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []); // Empty dependency array is correct here
 
   return (
     <div className="App">

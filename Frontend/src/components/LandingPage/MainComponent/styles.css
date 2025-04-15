@@ -13,7 +13,7 @@
 
 .heading1:hover {
   -webkit-text-stroke-width: 3px;
-  -webkit-text-stroke-color: var(--white);
+  -webkit-text-stroke-color: var(--black);
   color: var(--black);
   transition: all 0.3s;
 }

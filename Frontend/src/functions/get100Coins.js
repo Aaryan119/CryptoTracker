@@ -1,7 +1,8 @@
 // src/functions/get100Coins.js
 import axios from "axios";
 
-const BACKEND_API_URL = "http://localhost:5000/api/coins/markets";
+const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_URL; // Or VITE_BACKEND_URL
+const BACKEND_API_URL = `${BACKEND_BASE_URL}/api/coins/markets`; // Construct full URL
 
 export const get100Coins = async (page = 1) => {
   try {

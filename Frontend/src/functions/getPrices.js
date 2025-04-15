@@ -1,7 +1,9 @@
 // src/functions/getPrices.js
 import axios from "axios";
 
-const BACKEND_PRICES_URL = "http://localhost:5000/api/coins/";
+const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_URL; // Or VITE_BACKEND_URL
+const BACKEND_API_URL = `${BACKEND_BASE_URL}/api/coins/markets`; // Construct full URL
+const BACKEND_PRICES_URL = `${BACKEND_BASE_URL}/api/coins/`;
 
 export const getPrices = async (id, days, priceType) => {
   if (!id || !days || !priceType) {
@@ -10,7 +12,6 @@ export const getPrices = async (id, days, priceType) => {
   }
 
   const URL = `${BACKEND_PRICES_URL}${id}/market_chart`;
-  // console.log("[Frontend] Requesting Prices URL (Backend):", URL, "Params:", { vs_currency: 'usd', days });
 
   try {
     const response = await axios.get(URL, {

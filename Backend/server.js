@@ -15,22 +15,24 @@ if (!COINGECKO_API_KEY) {
 
 // --- Middleware ---
 const allowedOrigins = [
-    'http://localhost:3000', // Your local React dev server
-    // Add your deployed Netlify frontend URL here later
-    // Example: 'https://your-crypto-dashboard.netlify.app'
+    'http://localhost:3000', 
+    'https://cryptotracker99.netlify.app'
 ];
   
 app.use(cors({
     origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-        return callback(new Error(msg), false);
-        }
-        return callback(null, true);
+      // Allow requests with no origin (like mobile apps or curl requests) - Optional but helpful sometimes
+      // if (!origin) return callback(null, true);
+
+      // Check if the origin is in the allowed list
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true); // Allow
+      } else {
+        console.error(`CORS Error: Origin ${origin} not allowed.`); // Log denied origins
+        callback(new Error('Not allowed by CORS')); // Deny
+      }
     }
-}));
+  }));
 
 // --- API Proxy Routes ---
 

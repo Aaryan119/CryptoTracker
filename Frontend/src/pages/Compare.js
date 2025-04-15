@@ -12,18 +12,6 @@ import { getPrices } from "../functions/getPrices";
 import { settingChartData } from "../functions/settingChartData";
 import { settingCoinObject } from "../functions/settingCoinObject";
 
-// Debounce function (optional, but can help prevent rapid API calls if needed later)
-// function debounce(func, wait) {
-//   let timeout;
-//   return function executedFunction(...args) {
-//     const later = () => {
-//       clearTimeout(timeout);
-//       func(...args);
-//     };
-//     clearTimeout(timeout);
-//     timeout = setTimeout(later, wait);
-//   };
-// }
 
 function Compare() {
   const [allCoins, setAllCoins] = useState([]);
@@ -139,8 +127,8 @@ const fetchChartData = useCallback(async (coin1Id, coin2Id, numDays, priceKind) 
   
   // --- Inside Compare.js ---
   
-  // Create a debounced version of your fetching logic
-  // Note: Using useCallback helps stabilize the debounced function reference
+  // --- Add this comment on the line BEFORE useCallback ---
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetchChartData = useCallback(
      debounce((coin1Id, coin2Id, numDays, priceKind) => {
         fetchChartData(coin1Id, coin2Id, numDays, priceKind);
